@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("partials/head.ejs") %>
+        <title>High Street Gym - Manage Users</title>
+    </head>
+    <body>
+        <%- include("partials/header.ejs", {accessRole, firstName, editUser}) %>
+        <main>
+<h2>My Profile</h2>
+                <form action="/my_profile" method="post" class="form-grid">
+                    <input type="hidden" name="user_id" value="<%= editUser.id %>" />
+
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" value="<%=editUser.email %>" />
+
+                    <label for="password">Password:</label>
+                    <input type="password" name="password"  />
+
+                    <label for="access-role">Access Role:</label>
+                    <input type="text" name="access_role" value="<%= editUser.role %>" readonly/>
+                   
+                    <label for="phone">Mobile Number:</label>
+                    <input type="tel" name="phone" value="<%= editUser.phone %>" />
+
+                    <label for="first-name">First Name:</label>
+                    <input type="text" name="first_name" id="first-name" value="<%= editUser.firstname %>" />
+
+                    <label for="last-name">Last Name:</label>
+                    <input type="text" name="last_name" id="last-name" value="<%= editUser.lastname %>" />
+
+                    <label for="address">Address</label>
+                    <input type="text" name="address" id="address" value="<%= editUser.address %>" />
+
+                
+                    <input type="submit" name="action" value="update" />
+                </form>
+            </section>
+            
+        </main>
+        <%- include("partials/footer.ejs") %>
+    </body>
+</html>
+
+
+

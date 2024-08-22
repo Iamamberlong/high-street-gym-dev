@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("partials/head.ejs") %>
+        <title>High Street Gym - blogs</title>
+</head>
+
+<body>
+    <%- include("partials/header.ejs" , { accessRole, firstName }) %>
+        <main>
+            <h2>Blogs</h2>
+            <section class="search-area">
+                <form action="blogs" method="get" class="search-form">
+                    <input type="text" name="search_term" id="search-term" placeholder="weight loss" />
+                    <input type="submit" value="Search" />
+                </form>
+
+                <% if (accessRole==="member" || accessRole==="admin" ) { %>
+                    <!-- Show edit and delete buttons for logged in users -->
+                    <div id="create-blog-btn">
+                        <a href="/create_blog">Create Blog</a>
+                    </div>
+                    <% } %>
+            </section>
+
+            <section class="manage-blog-list">
+               
+                <span class="row-num"><% let rowNumber = 1 %></span>
+                <% for (let blog of blogs) { %>
+                <article class="blog-card">
+                    <span class="row-num">
+                        <%= rowNumber++ %>
+                    </span>
+                            
+                                <h3 class="blog-title">
+                                    <a href="blog_content?id=<%= blog.id %>"><%= blog.title %>
+                                </h3>
+                            </a>
+                            <span class="blog-author">
+                                <%= blog.firstname %>
+                            </span>
+                            <!-- <span class="blog">
+                                <%= new Date(blog.post_datetime).toLocaleDateString('en-AU', { month: 'short', day: '2-digit', year: 'numeric' }) %>
+                            </span> -->
+                </article>
+                <% } %>
+          
+        </section>
+        </main>
+        <%- include("partials/footer.ejs") %>
+</body>
+
+</html>

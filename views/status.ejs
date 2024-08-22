@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("partials/head.ejs") %>
+        <title>High Street Gym- Error</title>
+    </head>
+    <body>
+        <%- include("partials/header.ejs", {accessRole, firstName}) %>
+        <main>
+            
+            <section>
+                <article class="responsive-half margin-auto">
+                    <h2><%= status %></h2>
+                    <% if (typeof message != "undefined") { %>
+                    <p><%= message %></p>
+                    <% } %>
+                </article>
+            </section>
+            
+        </main>
+        <%- include("partials/footer.ejs") %>
+    </body>
+</html>

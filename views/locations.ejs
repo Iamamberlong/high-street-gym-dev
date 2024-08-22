@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("partials/head.ejs") %>
+    
+</head>
+<body>
+    <%- include("partials/header.ejs", {accessRole, firstName}) %>
+    <main>   
+        <section class="blog-content">
+            <p><%=locations.name %></p>
+        </section>
+        
+    </main>
+    <%- include("partials/footer.ejs") %>
+</body>
+</html>

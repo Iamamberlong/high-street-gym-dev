@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("partials/head.ejs") %>
+        <title>High Street Gym - My Bookings</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    </head>
+    <body>
+        <%- include("partials/header.ejs", {accessRole, firstName}) %>
+        <main>
+            <h2>My bookings</h2>
+                <section class="col-5 my-booking-list">
+                
+                    <span class="booking-list-heading">Class</span>
+                    <span class="booking-list-heading">Trainer</span>
+                    <span class="booking-list-heading">Location</span>
+                    <span class="booking-list-heading">Time</span>
+                    <span></span>
+                    <% let rowNumber = 1 %>
+                    <% for (let booking of allMyBookings) { %>
+                        
+                    <span><%= rowNumber++ %> <%= booking.activity_name %></span>               
+                    <span><%= booking.trainer_firstname %> <%= booking.trainer_lastname %></span>
+                    <span><%= booking.location_name %></span>                  
+                    <span><%= booking.class_datetime.toLocaleString('en-AU', {hour12: false}).slice(0, 20) %></span>                
+                    <span>
+                        <% if (accessRole == "member") { %>
+                            <form action="/my_bookings" method="post">
+                                <input type="hidden" name="booking_id" value="<%= booking.id%>">
+                                <button type="submit" class="book-button">Cancel</button></form>
+                       <% } %>
+                    </span>
+                    <% } %>
+                </section>               
+
+            
+        </main>
+        <%- include("partials/footer.ejs") %>
+    </body>
+</html>
+
+
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("partials/head.ejs") %>
+        <title>High Street Gym - Signup</title>
+</head>
+
+<body>
+    <%- include("partials/header.ejs", {accessRole, firstName}) %>
+        <main>
+            <section class="form-container">
+                <h2>Sign Up</h2>
+                <form action="/signup" method="post" class="form-grid" id="signup-form">
+
+                    <label for="email" class="input-label">Email:</label>
+                    <input type="email" id="email" , name="email"
+                        pattern="^[a-zA-Z][a-zA-Z0-9_.]*@[a-zA-Z0-9_]+\.[a-zA-Z]{2,}$" required
+                        placeholder="Enter email" />
+                    <span class="error-msg" id="signup-email-error">Invalid email format.</span>
+
+                    <label for="password" class="input-label">Password:</label>
+                    <input type="password" id="password" name="password" pattern="[A-Za-z0-9]+" minlength="6"
+                        placeholder="Enter password" required/>
+                    <span class="error-msg" id="signup-password-error">At least 6 letters and numbers. </span>
+
+
+                    <label for="phone" class="input-label">Mobile Number:</label>
+                    <input type="tel" id="phone" name="phone" pattern="^04\d{8}$" placeholder="Enter phone number"
+                        required />
+                    <span class="error-msg" id="mobile-error">Invalid mobile number</span>
+
+                    <label for="first-name" class="input-label">First Name:</label>
+                    <input type="text" name="first_name" id="first-name" pattern="^[a-zA-Z]{2,}$"
+                        placeholder="Enter first name" required/>
+                    <span class="error-msg" id="first-name-error">First name must have at least 2 letters.</span>
+
+                    <label for="last-name" class="input-label">Last Name:</label>
+                    <input type="text" name="last_name" id="last-name" pattern="^[a-zA-Z]{2,}$"
+                        placeholder="Enter last name" required />
+                    <span class="error-msg" id="last-name-error">Last name must have at least 2 letters.</span>
+
+                    <label for="unit-number" class="input-label">Unit Number:</label>
+                    <input type="number" name="unit_number" id="unit-number" placeholder="Enter unit number" />
+                    <span class="error-msg" id="unit-number-error">Must be a number</span>
+
+                    <label for="street-number" class="input-label">Street Number:</label>
+                    <input type="number" name="street_number" id="street-number" placeholder="Enter Street Number"
+                        required />
+                    <span class="error-msg" id="street-number-error">Must be a number</span>
+
+                    <label for="street-name" class="input-label">Street Name:</label>
+                    <input type="text" name="street_name" id="street-name" pattern="^[a-zA-Z]{2,}$"
+                        placeholder="Enter Street Name" required />
+                    <span class="error-msg" id="street-name-error">Must have at least 2 letters.</span>
+
+                    <label for="street-type">Street Type:</label>
+                    <select name="street_type" id="street-type" required>
+                        <option value="street">Street</option>
+                        <option value="road">Road</option>
+                        <option value="avenue">Avenue</option>
+                        <option value="crescent">Crescent</option>
+                        <option value="lane">Lane</option>
+                        <option value="boulevard">Boulevard</option>
+                        <option value="parade">Parade</option>
+                        <option value="terrace">Terrace</option>
+                        <option value="close">Close</option>
+                        <option value="court">Court</option>
+                    </select>
+                    <span class="error-msg" id="street-type-error"></span>
+
+
+                    <label for="suburb">Suburb:</label>
+                    <input type="text" name="suburb" id="suburb" placeholder="Enter suburb" required />
+                    <span class="error-msg" id="street-name-error">Must have at least 2 letters.</span>
+
+                    <label for="post-code">Post Code:</label>
+                    <input type="number" name="post_code" id="post-code" pattern="^\d{4}$" placeholder="Enter post code"
+                        required />
+                    <span class="error-msg" id="street-name-error">Must be a four digit number.</span>
+
+
+
+                    <input type="submit" name="action" value="SignUp" id="signup-btn" />
+                    <p class="prompt">
+                        Already a member?<a href="/login"> login</a>
+                    </p>
+                </form>
+                </section>
+                <%- include("partials/footer.ejs") %>
+            </section>
+        </main>
+</body>
+
+</html>

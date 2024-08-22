@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("partials/head.ejs") %>
+        <title>High Street Gym - Login</title>
+</head>
+
+<body>
+    <% const accessRole=null; %>
+        <%- include("partials/header.ejs", {accessRole, firstName}) %>
+            <main>
+                <section class="form-container">
+                    <h2>Login</h2>
+                    <form action="/login" method="post" class="form-grid" id="login-form">
+                        <label for="email" class="input-label">Email:</label>
+                        <input type="email" id="email" , name="email"
+                            pattern="^[a-zA-Z][a-zA-Z0-9_.]*@[a-zA-Z0-9_]+\.[a-zA-Z]{2,}$" placeholder="Enter email" required />
+                        <span class="error-msg" id="login-email-error">Invalid email format.</span>
+
+                        <label for="password" class="input-label">Password:</label>
+                        <input type="password" id="password" name="password" pattern="[A-Za-z0-9]+" minlength="6"
+                        placeholder="Enter password" required />
+                        <span class="error-msg" id="login-password-error">Password must have at least 6 characters and
+                            only letters and numbers. </span>
+
+
+                        <input type="submit" value="Login" id="login-btn" />
+
+                        <p class="prompt">
+                            Not a member? <a href="/signup">Sign Up</a>
+                        </p>
+                    </form>
+                </section>
+
+            </main>
+            <%- include("partials/footer.ejs") %>
+</body>
+
+</html>

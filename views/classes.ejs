@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("partials/head.ejs") %>
+        <title>High Street Gym - Classes</title>
+</head>
+
+<body>
+    <%- include("partials/header.ejs", {accessRole, firstName}) %>
+        <main>
+
+            <section class="classes-container">
+                <h2>Classes Timetable</h2>
+                    <p id="class-timetable">From <span class="class-date"><%= dateOfMonday %></span> to <span class="class-date"><%= dateOfSunday %></span></p>
+                <% if (typeof success !=='undefined' && success.length> 0) { %>
+                    <div class="alert alert-success">
+                        <%= success %>
+                    </div>
+                    <% } %>
+                        <% if (typeof error !=='undefined' && error.length> 0) { %>
+                            <div class="alert alert-danger">
+                                <%= error %>
+                            </div>
+                            <% } %>
+                                <% for (day in classesByDay) { const classOnDay=classesByDay[day] %>
+                                    <h3 class="day-of-class">
+                                        <%= day %>
+                                    </h3>
+                                    <% if(classOnDay.length> 0) { %>
+
+                                        <section class="cols-6 class-list-for-book">
+                                            <span class="class-list-heading">Class</span>
+                                            <span class="class-list-heading">Trainer</span>
+                                            <span class="class-list-heading">Location</span>
+                                            <span class="class-list-heading">Time</span>
+                                            <span class="class-list-heading">Duration</span>
+                                            <span class="class-list-heading"></span>
+                                            <% for (let gymClass of classOnDay) { %>
+                                                <span class="class-list-data">
+                                                    <%= gymClass.activity_name %>
+                                                </span>
+                                                <span class="class-list-data">
+                                                    <%= gymClass.user_firstname %>
+                                                        <%= gymClass.user_lastname %>
+                                                </span>
+                                                <span class="class-list-data">
+                                                    <%= gymClass.location_name %>
+                                                </span>
+                                                <span class="class-list-data">
+                                                    <%= gymClass.class_datetime.toLocaleString('en-AU', {hour12:
+                                                        false}).slice(0, 20) %>
+                                                </span>
+                                                <span class="class-list-data">
+                                                    <%= gymClass.activity_duration %>
+                                                </span>
+                                                <span>
+                                                    <% if (accessRole=="member" ) { %>
+                                                        <form action="/booking_confirmation" method="post">
+                                                            <input type="hidden" name="class_id"
+                                                                value="<%= gymClass.id%>">
+                                                            <button type="submit" class="book-button">Book</button>
+                                                        </form>
+                                                        <% } %>
+                                                </span>
+
+                                                <% } %>
+                                        </section>
+                                        <% } else { %>
+                                            <p>No classes on this day</p>
+                                            <% } %>
+                                                <% } %>
+            </section>
+
+        </main>
+        <%- include("partials/footer.ejs") %>
+</body>
+
+</html>

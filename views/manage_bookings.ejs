@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("partials/head.ejs") %>
+        <title>High Street Gym - Manage Bookings</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+</head>
+
+<body>
+    <%- include("partials/header.ejs", { accessRole, firstName }) %>
+        <main>
+            <h2>Manage Bookings</h2>
+            <div id="manage-booking">
+                <section class="form-container" id="filter-by-trainer">
+                    <h3>Filter by member</h3>
+                    <form action="/manage_bookings" method="GET" class="filters">
+                        <label for="member-filter">Pick a Member</label>
+                        <select id="member-filter" name="member_filter">
+                            <option value="">Select a member</option>
+                            <% allUsers.forEach(user=> { %>
+                                <% if (user.role==='member' ) { %>
+                                    <option value="<%= user.id %>" <%=editBooking.member_id===user.id ? 'selected' : ''
+                                        %>>
+                                        <%= user.firstname + ' ' + user.lastname %>
+                                    </option>
+                                    <% } %>
+                                        <% }); %>
+                        </select>
+                        <button type="submit">Search</button>
+
+                    </form>
+                </section>
+
+
+
+                <section class="form-container" id="manage-booking-form">
+                    <h3>Edit Bookings</h3>
+                    <form action="/manage_bookings" method="post" class="form-grid inline-grid">
+                        <input type="hidden" name="booking_id" value="<%= editBooking.id %>" />
+
+                        <label for="member">Member:</label>
+                        <select id="member" name="member">
+                            <option value="">Select a member</option>
+                            <% allUsers.forEach(user=> { %>
+                                <% if (user.role==='member' ) { %>
+                                    <option value="<%= user.id %>" <%=editBooking.member_id===user.id ? 'selected' : ''
+                                        %>><%= user.firstname + ' ' + user.lastname %>
+                                    </option>
+                                    <% } %>
+                                        <% }); %>
+                        </select>
+
+                        <label for="gymClass">Class:</label>
+                        <select id="gymClass" name="class_id" onchange="showLocationTrainerInfo(this)">
+                            <option value="">Select a class</option>
+                            <% allClasses.forEach(gymClass=> { %>
+                                <option value="<%= gymClass.id %>" <%=editBooking.class_id===gymClass.id ? 'selected'
+                                    : '' %>>
+                                    <%= gymClass.activity_name %>
+                                        <%= gymClass.class_datetime.toLocaleString('en-AU', { hour12: false }).slice(0,
+                                            17).replace(",", "" ) %>
+                                </option>
+                                <% }) %>
+                        </select>
+
+                        <div id="location-trainer-info">
+                            <% allClasses.forEach(gymClass=> { %>
+                                <div id="location-trainer-<%= gymClass.id %>" style="display: none;">
+                                    <span id="location-info">Location: <%= gymClass.location_name %> </span>
+                                    <span id="trainer-info">Trainer: <%= gymClass.user_firstname %>
+                                            <%= gymClass.user_lastname %></span>
+
+                                </div>
+                                <% }) %>
+                        </div>
+
+
+                        <script>
+                            function showLocationTrainerInfo(select) {
+                                // Get the value of the selected class ID from the dropdown
+                                var selectedClassId = select.value;
+
+                                // Hide all div elements inside location-trainer-info div
+                                var locationTrainerDivs = document.querySelectorAll('#location-trainer-info div');
+                                locationTrainerDivs.forEach(function (div) {
+                                    div.style.display = "none"; // Hide the div
+                                });
+
+                                // Show the div corresponding to the selected class ID
+                                var selectedDiv = document.getElementById("location-trainer-" + selectedClassId);
+                                if (selectedDiv) {
+                                    selectedDiv.style.display = "block"; // Show the div
+                                }
+                            }
+                        </script>
+
+                        <input type="submit" name="action" value="delete" class="edit-btn manage-btn" />
+                        <% if (editBooking.id===0) { %>
+                            <input type="submit" name="action" value="create" class="edit-btn manage-btn" />
+                            <% } else { %>
+                                <input type="submit" name="action" value="update" class="edit-btn manage-btn" />
+                                <% } %>
+                    </form>
+                </section>
+            </div>
+            <section class="booking-list">
+
+                <span class="list-heading">Member</span>
+                <span class="list-heading collapsible">Trainer</span>
+                <span class="list-heading collapsible">Location</span>
+                <span class="list-heading">Activity</span>
+                <span class="list-heading">Time</span>
+                <span class="list-heading"></span>
+                <!-- <span class="class-list-heading">Duration</span> -->
+                <% let rowNumber=1 %>
+                    <% for (let booking of allBookings) { %>
+                        <span>
+                            <%= rowNumber++ %>
+                                <%= booking.member_firstname %>
+                                    <%= booking.member_lastname %>
+                        </span>
+
+                        <span class="collapsible">
+                            <%= booking.trainer_firstname %>
+                                <%= booking.trainer_lastname %>
+                        </span>
+                        <span  class="collapsible">
+                            <%= booking.location_name %>
+                        </span>
+                        <span>
+                            <%= booking.activity_name %>
+                        </span>
+                        <span>
+                            <%= booking.class_datetime.toLocaleString('en-AU', { hour12: false }).slice(0, 20) %>
+                        </span>
+
+                        <a href="/manage_bookings?edit_id=<%= booking.id %>" class="edit-link-btn"> Edit</a>
+                        <% } %>
+            </section>
+
+
+        </main>
+        <%- include("partials/footer.ejs") %>
+</body>
+
+</html>

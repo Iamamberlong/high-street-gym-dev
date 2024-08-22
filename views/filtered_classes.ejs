@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("partials/head.ejs") %>
+        <title>High Street Gym - Signup</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    </head>
+    <body>
+        <main>
+            <%- include("partials/header.ejs", {accessRole, firstName}) %>
+
+            <form action="/classes_admin" method="GET">
+                <label for="trainer">Pick a trainer:</label>
+                <select name="picked_trainer" id="picked-trainer">
+                    
+                            
+                    <% allUsers.forEach(user => { %>d
+                        <% if (user.role === 'trainer') { %>
+                            <option value="<%= user.id %>" <%= editClass.trainer_user_id === user.id ? 'selected' : '' %>><%= user.firstname + ' ' + user.lastname %></option>
+                        <% } %>
+                    <% }); %>
+        
+                </select>
+                
+                <label for="start-date">Start Date:</label>
+                <input type="date" id="start-date" name="start_date">
+                
+                <label for="end-date">End Date:</label>
+                <input type="date" id="end-date" name="end_date">
+                
+                <button type="submit">Filter</button>
+            </form>
+            
+           
+            <section class="half-half-layout">
+           
+
+                <section class="cols-5 data-list">
+                    <span class="class-list-heading">Class</span>
+                    <span class="class-list-heading">Trainer</span>
+                    <span class="class-list-heading">Location</span>
+                    <span class="class-list-heading">Time</span>
+                    <!-- <span class="class-list-heading">Duration</span> -->
+                    <span></span>
+                    <% for (let gymClass of allClasses) { %>
+                    <span><%= gymClass.activity_name %></span>               
+                    <span><%= gymClass.user_firstname %> <%= gymClass.user_lastname %></span>
+                    <span><%= gymClass.location_name %></span>
+                   
+                    <span><%= gymClass.class_datetime.toLocaleString('en-AU', {hour12: false}).slice(0, 20) %></span>
+
+                  
+                    <a href="/manage_classes?edit_id=<%= gymClass.id %>" class="link-button"> Edit</a>
+                    <% } %>
+                </section>
+
+                <form action="/manage_classes" method="post" class="form-grid">
+                    <input type="hidden" name="class_id" value="<%= editClass.id %>" />
+                
+                    <label for="activity">Activity:</label>
+                    <select id="activity" name="activity">
+                        <% allActivities.forEach(activity => { %>
+                            <option value="<%= activity.id %>" <%= editClass.activity_id === activity.id ? 'selected' : '' %> placeholder=""><%= activity.activity_name %></option>
+                        <% }); %>
+                    </select>
+                
+                    <label for="trainer">Trainer:</label>
+                    <select id="trainer" name="trainer">
+                        <% allUsers.forEach(user => { %>d
+                            <% if (user.role === 'trainer') { %>
+                                <option value="<%= user.id %>" <%= editClass.trainer_user_id === user.id ? 'selected' : '' %>><%= user.firstname + ' ' + user.lastname %></option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                
+                    <label for="location">Location:</label>
+                    <select id="location" name="location">
+                        <% allLocations.forEach(location => { %>
+                            <option value="<%= location.id %>" <%= editClass.location_id === location.id ? 'selected' : '' %>><%= location.name %></option>
+                        <% }); %>
+                    </select>
+                
+                    <label for="class-date">Date:</label>
+                    <input type="date" id="class-date" name="class_date" value="<%= formattedDate %>" placeholder="Pick a date">
+                
+                    <label for="class-time">Time:</label>
+                    <select name="class_time" id="class-time">
+                        <% const times = [
+                            { id: '08:00:00', name: '08:00:00 AM' },
+                            { id: '09:00:00', name: '09:00:00 AM' },
+                            { id: '10:00:00', name: '10:00:00 AM' },
+                            { id: '11:00:00', name: '11:00:00 AM' },
+                            { id: '12:00:00', name: '12:00:00 PM' },
+                            { id: '13:00:00', name: '01:00:00 PM' },
+                            { id: '14:00:00', name: '02:00:00 PM' },
+                            { id: '15:00:00', name: '03:00:00 PM' },
+                            { id: '16:00:00', name: '04:00:00 PM' },
+                            { id: '17:00:00', name: '05:00:00 PM' },
+                            { id: '18:00:00', name: '06:00:00 PM' }
+                        ]; %>
+                        <% times.forEach(time => { %>
+                            <option value="<%= time.id %>" <%= formattedTime == time.id ? 'selected' : '' %>><%= time.name %></option>
+                        <% }); %>
+                    </select>
+                
+                    <input type="submit" name="action" value="delete" />
+                    <% if (editClass.id === 0) { %>
+                        <input type="submit" name="action" value="create" />
+                    <% } else { %>
+                        <input type="submit" name="action" value="update" />
+                    <% } %>
+                </form>
+                
+            </section>
+            <%- include("partials/footer.ejs") %>
+        </main>
+    </body>
+</html>
+
+
+

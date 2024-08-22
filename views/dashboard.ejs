@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("partials/head.ejs") %>
+        <title>High Street Gym - Admin dashboard</title>
+    </head>
+    <body>
+        <%- include("partials/header.ejs", {accessRole, firstName}) %>
+        <main>
+
+            <h1>This is <%= accessRole %> dashboard</h1>
+            
+        </main>
+        <%- include("partials/footer.ejs") %>
+    </body>
+</html>

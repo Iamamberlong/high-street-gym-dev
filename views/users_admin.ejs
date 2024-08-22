@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("partials/head.ejs") %>
+        <title>High Street Gym - Users Admin</title>
+    </head>
+    <body>
+        <main>
+            <%- include("partials/header.ejs") %> <%-
+            include("partials/admin_nav.ejs", { accessRole }) %>
+            <section class="half-half-layout">
+                <section class="cols-5 data-list">
+                    <span class="data-list-heading">Name</span>
+                    <span class="data-list-heading">Email</span>
+                    <span class="data-list-heading">Role</span>
+                    <span></span>
+                    <% for (let user of users) { %>
+                    <span><%= user.email %></span>
+                    <span><%= user.password %></span>
+                    <span><%= user.role %></span>
+                    <span><%= user.phone %></span>
+                    <span><%= user.first_name %></span>
+                    <span><%= user.last_name %></span>
+                    <span><%= user.address %></span>
+                    <a href="/user_admin?edit_id=<%= user.user_id %>" class="link-button">Edit</a>
+                    <% } %>
+                </section>
+                <form action="/edit_user" method="post" class="form-grid">
+                    <input type="hidden" name="user_id" value="<%= editUser.id %>" />
+                    <label for="name">Email</label>
+                    <input type="email" name="email" id="email" value="<%= editUser.email %>" />
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" value="<%= editUser.password %>" />
+                    <label for="role">Access Role</label>
+                    <select name="access_role" id="access-role">
+                        <option <%=editUser.role=="admin" ? "selected" : "" %> value="admin">
+                            admin
+                        </option>
+                        <option <%=editUser.role=="trainer" ? "selected" : "" %> value="trainer">
+                            trainer
+                        </option>
+                        <option <%=editUser.role=="member" ? "selected" : "" %> value="member">
+                            member
+                        </option>
+                    </select>
+                    <input type="submit" name="action" value="delete" />
+                    <% if (edit_user.id == "0") { %>
+                    <input type="submit" name="action" value="create" />
+                    <% } else { %>
+                    <input type="submit" name="action" value="update" />
+                    <% } %>
+                </form>
+            </section>
+            <%- include("partials/footer.ejs") %>
+        </main>
+    </body>
+</html>

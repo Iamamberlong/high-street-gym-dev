@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("partials/head.ejs") %>
+    <title>Blog - <%= blog.title.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&amp;/g, '&') %></title>
+</head>
+<body>
+    <%- include("partials/header.ejs", {accessRole, firstName}) %>
+    <main>   
+        <section class="blog-content">
+            <article class="blog-post">
+                <h2><%= blog.title.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&amp;/g, '&') %></h2>
+                <div class="blog-body">
+                    <%= blog.content.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&amp;/g, '&') %>
+                </div>
+                <!-- Edit Button -->
+                <% if(blog.user_id == userID) { %>
+                <button id="editBtn">Edit</button>
+                <% } %>
+                <!-- Delete Button -->
+                <% if(blog.user_id == userID) { %>
+                <form action="/my_blogs" method="POST">
+                    <input type="hidden" name="blog_id" value="<%= blog.id %>">
+                    <button type="submit">Delete</button>
+                </form>
+            <% } %>
+                <form id="editForm" style="display: none;" action="/blog_content/<%= blog.id %>" method="POST">
+                    <input type="hidden" name="id" value="<%= blog.id%>">
+
+              
+
+                  
+                    <input type="text" name="title" value="<%= blog.title.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&amp;/g, '&') %>">
+                    <textarea name="content"><%= blog.content.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&amp;/g, '&') %></textarea>
+                    <button type="submit">Post</button>
+                </form>
+            </article>
+        </section>
+        
+    </main>
+   
+    <script>
+        const editBtn = document.getElementById('editBtn');
+        const editForm = document.getElementById('editForm');
+
+        editBtn.addEventListener('click', () => {
+            // Show edit form and hide edit button
+            editForm.style.display = 'block';
+            editBtn.style.display = 'none';
+        });
+    </script>
+     <%- include("partials/footer.ejs") %>
+</body>
+</html>
